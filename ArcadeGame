@@ -1,0 +1,198 @@
+/* Constants for bricks */
+var NUM_ROWS = 8;
+var BRICK_TOP_OFFSET = 10;
+var BRICK_SPACING = 2;
+var NUM_BRICKS_PER_ROW = 10;
+var BRICK_HEIGHT = 10;
+var SPACE_FOR_BRICKS = getWidth() - (NUM_BRICKS_PER_ROW + 1) * BRICK_SPACING;
+var BRICK_WIDTH = SPACE_FOR_BRICKS / NUM_BRICKS_PER_ROW;
+
+/* Constants for ball and paddle */
+var PADDLE_WIDTH = 80;
+var PADDLE_HEIGHT = 15;
+var PADDLE_OFFSET = 10;
+
+var BALL_RADIUS = 15;
+var ball;
+var dx = 4;
+var dy = 4;
+var paddle;
+function start(){
+    redrect();
+	redrect2();
+    orangerect();
+    orangerect2();
+	greenrect();
+	greenrect2();
+	bluerect();
+	bluerect2();
+	
+	
+	ball = new Circle(BALL_RADIUS);
+    ball.setPosition(getWidth()/2,getHeight()/2);
+    add(ball);
+    
+    
+    paddle = new Rectangle(PADDLE_WIDTH,PADDLE_HEIGHT);
+    paddle.setPosition(getWidth()/2, 450);
+    add(paddle);
+    setTimer(draw,20);
+    
+    mouseMoveMethod(movepaddle);
+    
+}
+
+//---------------------------------------BALL
+function draw(){
+    checkWalls();
+    ball.move(dx,dy);
+}
+var num =0;
+function boom(){
+    if(getElementAt(ball.getX() + 15, ball.getY()+15) != null && ball.getY()< 300){
+        remove(getElementAt(ball.getX() + 15, ball.getY() + 15));
+        dy = -dy;
+    }
+    if(ball.getY() > getHeight()-ball.getRadius()){
+        ball.setPosition(getWidth()/2, getHeight()/2);
+        num +=1;
+        dy = dy;
+        if(num == 3){
+            var txt = new Text("Game Over !", "30pt Arial");
+            txt.setPosition(100, 200);
+            txt.setColor(Color.blue);
+            add(txt);
+            remove(ball);
+        }
+    }
+    if(getElementAt(ball.getX() +15, ball.getY() + 15) !=null && ball.getY() > 420 ){
+        dy = -dy;
+    }
+    
+}
+
+function checkWalls(){
+    boom();
+	// Bounce off right wall
+	if(ball.getX() + ball.getRadius() > getWidth()){
+		dx = -dx;
+	}
+	
+	// Bounce off left wall
+	if(ball.getX() - ball.getRadius() < 0){
+		dx = -dx;
+	}
+	
+	// Bounce off bottom wall
+	if(ball.getY() + ball.getRadius() > getHeight()){
+		dy = -dy;
+	}
+	
+	// Bounce off top wall
+	if(ball.getY() - ball.getRadius() < 0){
+		dy = -dy;
+	}
+}
+//--------------------------------PADDLE
+function movepaddle(e){
+    
+    paddle.setPosition(e.getX()-PADDLE_WIDTH/2,450);
+    
+    if(e.getX() <= PADDLE_WIDTH/2 -5){
+        paddle.setPosition(-5,450);
+    }
+    if(e.getX() >= (getWidth()-(PADDLE_WIDTH/2 + 5))){
+        //paddle.setPosition(getWidth()-PADDLE_WIDTH,480);
+        paddle.setPosition(315,450);
+    }
+    paddle.move(5,0);
+    
+    
+    
+    
+}
+
+//-----------------------------------------------RED_BRICKS
+var width = 2;
+function redrect(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.RED);
+        rect.setPosition(width,BRICK_HEIGHT);
+        add(rect);
+        width += BRICK_WIDTH +2 ;
+    }
+}
+var width2 = 2;
+function redrect2(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.RED);
+        rect.setPosition(width2,BRICK_HEIGHT+12);
+        add(rect);
+        width2 += BRICK_WIDTH +2 ;
+    }
+}
+//-------------------------------------------------ORANGE_BRICKS
+var width3 = 2;
+function orangerect(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.ORANGE);
+        rect.setPosition(width3,BRICK_HEIGHT+24);
+        add(rect);
+        width3 += BRICK_WIDTH +2 ;
+    }
+}
+var width4 = 2;
+function orangerect2(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.ORANGE);
+        rect.setPosition(width4,BRICK_HEIGHT+36);
+        add(rect);
+        width4 += BRICK_WIDTH +2 ;
+    }
+}
+//------------------------------------------------GREEN_BRICKS
+var width5 = 2;
+function greenrect(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.GREEN);
+        rect.setPosition(width5,BRICK_HEIGHT+48);
+        add(rect);
+        width5 += BRICK_WIDTH +2 ;
+    }
+}
+var width6 = 2;
+function greenrect2(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.GREEN);
+        rect.setPosition(width6,BRICK_HEIGHT+60);
+        add(rect);
+        width6 += BRICK_WIDTH +2 ;
+    }
+}
+//-------------------------------------------------BLUE_BRICKS
+var width7 = 2;
+function bluerect(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.BLUE);
+        rect.setPosition(width7,BRICK_HEIGHT + 72);
+        add(rect);
+        width7 += BRICK_WIDTH +2 ;
+    }
+}
+var width8 = 2;
+function bluerect2(){
+    for(var i = 0; i < NUM_BRICKS_PER_ROW; i++){
+        var rect = new Rectangle(BRICK_WIDTH,BRICK_HEIGHT);
+        rect.setColor(Color.BLUE);
+        rect.setPosition(width8,BRICK_HEIGHT+84);
+        add(rect);
+        width8 += BRICK_WIDTH +2 ;
+    }
+}
